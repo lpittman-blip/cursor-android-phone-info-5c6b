@@ -1,0 +1,25 @@
+plugins {
+    id 'base'
+}
+
+tasks.register('assembleDebug') {
+    group = 'build'
+    dependsOn ':app:assembleDebug'
+}
+
+tasks.register('testDebugUnitTest') {
+    group = 'verification'
+    dependsOn ':app:testDebugUnitTest'
+}
+
+tasks.named('assemble') {
+    dependsOn ':app:assemble'
+}
+
+tasks.named('check') {
+    dependsOn ':app:check'
+}
+
+tasks.named('build') {
+    dependsOn ':app:build'
+}
