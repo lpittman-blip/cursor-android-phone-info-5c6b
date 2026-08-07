@@ -3,13 +3,15 @@ plugins {
 }
 
 ext.androidConfig = [
-    applicationId: 'com.example.androidphoneinfo',
+    applicationId: 'io.github.lpittman_g.androidphoneinfo',
+    appLabel     : 'Android Phone Info',
     minSdk       : 24,
     targetSdk    : 35,
     versionCode  : 1,
     versionName  : '1.0'
 ]
 
+def androidConfig = ext.androidConfig
 def manifestFile = layout.projectDirectory.file('src/main/AndroidManifest.xml').asFile
 
 tasks.register('verifyBuildFiles') {
@@ -24,7 +26,7 @@ tasks.register('verifyBuildFiles') {
         if (!manifestText.contains('<manifest')) {
             throw new GradleException('Android manifest is missing the <manifest> root element.')
         }
-        if (!manifestText.contains('android:label="Android Phone Info"')) {
+        if (!manifestText.contains("android:label=\"${androidConfig.appLabel}\"")) {
             throw new GradleException('Android manifest is missing the expected application label.')
         }
     }
@@ -38,6 +40,7 @@ tasks.register('assembleDebug') {
         def outputFile = layout.buildDirectory.file('outputs/metadata/debug/build-files.properties').get().asFile
         outputFile.parentFile.mkdirs()
         outputFile.text = """applicationId=${androidConfig.applicationId}
+appLabel=${androidConfig.appLabel}
 minSdk=${androidConfig.minSdk}
 targetSdk=${androidConfig.targetSdk}
 versionCode=${androidConfig.versionCode}
